@@ -28,15 +28,18 @@ program.usage("[options] <srcfile>");
 program.version(packageInfo.version, "-v, --version");
 program.option("-o, --output <file>", "write output to <file> (if not specified, write output to stdout)");
 program.option("-f, --fullwidth", "use full-width characters");
+program.option("-w, --width <value>", "shape output with width <value>");
 program.parse(process.argv);
 
 let main = co(function * () {
     if (program.args.length === 0) {
         program.help();
     }
-    const SRCFILE  = program.args[0];
+    const SRCFILE   = program.args[0];
     const OUTFILE   = program["output"];
     const FULLWIDTH = program["fullwidth"];
+    const WIDTH     = program["width"];
+    // input
     let src = yield readFile(SRCFILE, { encoding: "utf8" });
     // parse
     let defs  = gp.parser.parse(SRCFILE, src);
@@ -46,7 +49,14 @@ let main = co(function * () {
     term = gp.transf.grassNormalize(term);
     term = gp.transf.lambdaLift(term);
     term = gp.transf.optimize(term);
-    let grasses = gp.transf.plant(term, FULLWIDTH ? FW_CHARS : HW_CHARS) + "\n";
+    let grasses = gp.transf.plant(term, FULLWIDTH ? FW_CHARS : HW_CHARS);
+    // shape
+    if (WIDTH === undefined || WIDTH <= 0) {
+        grasses = grasses + "\n";
+    }
+    else {
+        grasses = shape(grasses, WIDTH);
+    }
     // output
     if (OUTFILE === undefined) {
         process.stdout.write(grasses);
@@ -83,4 +93,15 @@ function writeFile(filename, data, options) {
             }
         })
     });
+}
+
+function shape(text, width) {
+    let res = "";
+    let len = text.length;
+    let i   = 0;
+    while (i * width < len) {
+        res += text.substr(i * width, width) + "\n";
+        i++;
+    }
+    return res;
 }
