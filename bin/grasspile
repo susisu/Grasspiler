@@ -24,7 +24,7 @@ const FW_CHARS = Object.freeze({ w: "ｗ", W: "Ｗ", v: "ｖ" });
 process.title = "grasspile";
 process.stdin.setEncoding("utf8");
 
-program.usage("[options] <progfile>");
+program.usage("[options] <srcfile>");
 program.version(packageInfo.version, "-v, --version");
 program.option("-o, --output <file>", "write output to <file> (if - is specified, write output to stdout)", "a.out");
 program.option("-f, --fullwidth", "use full-width characters");
@@ -34,12 +34,12 @@ let main = co(function * () {
     if (program.args.length === 0) {
         program.help();
     }
-    const PROGFILE  = program.args[0];
+    const SRCFILE  = program.args[0];
     const OUTFILE   = program["output"];
     const FULLWIDTH = program["fullwidth"];
-    let src = yield readFile(PROGFILE, { encoding: "utf8" });
+    let src = yield readFile(SRCFILE, { encoding: "utf8" });
     // parse
-    let defs  = gp.parser.parse(PROGFILE, src);
+    let defs  = gp.parser.parse(SRCFILE, src);
     // transform
     let term = gp.transf.defsToDeBruijnIndexed(defs, INIT_ENV);
     term = gp.transf.aNormalize(term);
