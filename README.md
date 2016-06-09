@@ -21,7 +21,7 @@ The syntax is defined as below (though this is very informal and incomplete):
 
 ```
 <program> ::= <definition>+
-<definition> ::= let <ident>* = <term>
+<definition> ::= let <ident>+ = <term>
 <term> ::= <ident>                           variable
            <term> <term>                     application
            λ<ident>+. <term>                 lambda abstraction
