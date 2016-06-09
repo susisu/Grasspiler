@@ -26,7 +26,7 @@ process.stdin.setEncoding("utf8");
 
 program.usage("[options] <srcfile>");
 program.version(packageInfo.version, "-v, --version");
-program.option("-o, --output <file>", "write output to <file> (if - is specified, write output to stdout)", "a.out");
+program.option("-o, --output <file>", "write output to <file> (if not specified, write output to stdout)");
 program.option("-f, --fullwidth", "use full-width characters");
 program.parse(process.argv);
 
@@ -48,7 +48,7 @@ let main = co(function * () {
     term = gp.transf.optimize(term);
     let grasses = gp.transf.plant(term, FULLWIDTH ? FW_CHARS : HW_CHARS) + "\n";
     // output
-    if (OUTFILE === "-") {
+    if (OUTFILE === undefined) {
         process.stdout.write(grasses);
     }
     else {
