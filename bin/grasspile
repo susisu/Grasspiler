@@ -17,7 +17,7 @@ let program = require("commander");
 let gp = require("../lib/grasspiler.js");
 let packageInfo = require("../package.json");
 
-const INIT_ENV = gp.utils.List.empty().cons("IN").cons("CHAR_w").cons("SUCC").cons("OUT");
+const INIT_ENV = gp.utils.List.empty().cons("In").cons("w").cons("Succ").cons("Out");
 const HW_CHARS = Object.freeze({ w: "w", W: "W", v: "v" });
 const FW_CHARS = Object.freeze({ w: "ｗ", W: "Ｗ", v: "ｖ" });
 
