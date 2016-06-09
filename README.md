@@ -34,11 +34,11 @@ A lambda abstraction can be written in several kinds of notation, and also mixtu
 (* lambda calculus-like *)
 let S = λx y z. x z (y z)
 (* ML-like *)
-let S = fun x y z => x z (y z)
+let S = fun x y z -> x z (y z)
 (* Haskell-like *)
 let S = \x y z -> x z (y z)
-(* mixture *)
-let S = fun x y z -> x z (y z)
+(* mixture of something *)
+let S = fun x y z => x z (y z)
 (* Of course you can also write it like this *)
 let S x y z = x z (y z)
 ```
@@ -50,12 +50,12 @@ and the value defined at the end of the source program is called by the Grass VM
 Here is a simple program, which takes a character as input, and output it repeatedly.
 ``` ml
 (* fixed-point operator *)
-let fix = fun f =>
-    (fun x => f (fun y => x x y))
-    (fun x => f (fun y => x x y))
+let fix = fun f ->
+    (fun x -> f (fun y -> x x y))
+    (fun x -> f (fun y -> x x y))
 
 (* infinite loop *)
-let loop = fix (fun loop c =>
+let loop = fix (fun loop c ->
     let _ = Out c in
     loop c
 )
