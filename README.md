@@ -22,10 +22,10 @@ The syntax is defined as below (though this is very informal and incomplete):
 ```
 <program> ::= <definition>+
 <definition> ::= let <ident>+ = <term>
-<term> ::= <ident>                           variable
-           <term> <term>                     application
-           λ<ident>+. <term>                 lambda abstraction
-           let <ident> = <term> in <term>    local binding
+<term> ::= <ident>                            variable
+           <term> <term>                      application
+           λ<ident>+. <term>                  lambda abstraction
+           let <ident>+ = <term> in <term>    local binding
 ```
 
 A lambda abstraction can be written in several kinds of notation, and also mixture of them.
