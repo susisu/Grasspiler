@@ -68,7 +68,7 @@ Save this source program as `resonance.ml` (it is not an ML program, though) and
 ``` shell
 $ grasspile resonance.ml -o resonance.w
 $ cat resonance.w
-wwWWwwWwwvwwWWWwWWWwvwWWwWWWwwWwwvwvwwWWWWWWWwWWWwwvwwWWWWWWWWWWWwwwwwwwwwwWWWwvWWWwwwwWwwwWWWwWWWWWWw
+wwWWwwWwwvwwWWWwWWWwvwWWwWWWwwWwwvwwWWWWWWwWWWwwvWWwvwWWWWWWWWWWwwwwwwwwwWWWw
 ```
 
 Then you can run the compiled program with a Grass compiler/interpreter (for instance, [Grass-JS](https://github.com/susisu/Grass-JS)).
