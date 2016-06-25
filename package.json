@@ -1,6 +1,6 @@
 {
   "name": "@susisu/grasspiler",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Untyped lambda calculus to Grass compiler",
   "main": "index.js",
   "directories": {
