@@ -29,6 +29,8 @@ program.version(packageInfo.version, "-v, --version");
 program.option("-o, --output <file>", "write output to <file> (if not specified, write output to stdout)");
 program.option("-f, --fullwidth", "use full-width characters");
 program.option("-w, --width <value>", "shape output with width <value>");
+program.option("-D, --opt-dup", "delete duplicate definitions");
+program.option("-P, --opt-perm <trials>", "optimize by permuting terms at random", 0);
 program.parse(process.argv);
 
 let main = co(function * () {
@@ -39,6 +41,8 @@ let main = co(function * () {
     const OUTFILE   = program["output"];
     const FULLWIDTH = program["fullwidth"];
     const WIDTH     = program["width"];
+    const OPT_DUP   = program["optDup"];
+    const OPT_PERM  = parseInt(program["optPerm"]) | 0;
     // input
     let src = yield readFile(SRCFILE, { encoding: "utf8" });
     // parse
@@ -48,9 +52,15 @@ let main = co(function * () {
     term = gp.transf.aNormalize(term);
     term = gp.transf.grassNormalize(term);
     term = gp.transf.lambdaLift(term);
-    // optimization
+    // optimize
     term = gp.opt.deleteUnusedDefs(term);
-    term = gp.opt.deleteDuplicateDefs(term);
+    if (OPT_DUP) {
+        term = gp.opt.deleteDuplicateDefs(term);
+    }
+    if (OPT_PERM > 0) {
+        term = gp.opt.randomPermOptimize(term, OPT_PERM);
+    }
+    // plant
     let grasses = gp.transf.plant(term, FULLWIDTH ? FW_CHARS : HW_CHARS);
     // shape
     if (WIDTH === undefined || WIDTH <= 0) {
