@@ -77,7 +77,12 @@ let main = co(function * () {
         yield writeFile(OUTFILE, grasses, { encoding: "utf8" });
     }
 }).catch(error => {
-    console.error(String(error));
+    if (error instanceof lq.ParseError || error instanceof gp.errors.CompileError) {
+        process.stderr.write(error.toString() + "\n");
+    }
+    else {
+        console.error(error);
+    }
     process.exit(1);
 });
 
