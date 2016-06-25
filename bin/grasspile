@@ -48,7 +48,9 @@ let main = co(function * () {
     term = gp.transf.aNormalize(term);
     term = gp.transf.grassNormalize(term);
     term = gp.transf.lambdaLift(term);
-    term = gp.opt.optimize(term);
+    // optimization
+    term = gp.opt.deleteUnusedDefs(term);
+    term = gp.opt.deleteDuplicateDefs(term);
     let grasses = gp.transf.plant(term, FULLWIDTH ? FW_CHARS : HW_CHARS);
     // shape
     if (WIDTH === undefined || WIDTH <= 0) {
