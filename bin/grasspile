@@ -12,10 +12,10 @@ const fs = require("fs");
 const co = require("co");
 const lq = require("loquat");
 
-let program = require("commander");
+const program = require("commander");
 
-let gp = require("../lib/grasspiler.js");
-let packageInfo = require("../package.json");
+const gp = require("../lib/grasspiler.js");
+const packageInfo = require("../package.json");
 
 const INIT_ENV = gp.utils.List.empty().cons("In").cons("w").cons("Succ").cons("Out");
 const HW_CHARS = Object.freeze({ w: "w", W: "W", v: "v" });
@@ -33,7 +33,8 @@ program.option("-D, --opt-dup", "delete duplicate definitions");
 program.option("-P, --opt-perm <trials>", "optimize by permuting terms at random", 0);
 program.parse(process.argv);
 
-let main = co(function * () {
+// main
+co(function* () {
     if (program.args.length === 0) {
         program.help();
     }
@@ -44,9 +45,9 @@ let main = co(function * () {
     const OPT_DUP   = program["optDup"];
     const OPT_PERM  = parseInt(program["optPerm"]) | 0;
     // input
-    let src = yield readFile(SRCFILE, { encoding: "utf8" });
+    const src = yield readFile(SRCFILE, { encoding: "utf8" });
     // parse
-    let defs  = gp.parser.parse(SRCFILE, src);
+    const defs  = gp.parser.parse(SRCFILE, src);
     // transform
     let term = gp.transf.defsToDeBruijnIndexed(defs, INIT_ENV);
     term = gp.transf.aNormalize(term);
@@ -81,6 +82,7 @@ let main = co(function * () {
         process.stderr.write(error.toString() + "\n");
     }
     else {
+        // eslint-disable-next-line no-console
         console.error(error);
     }
     process.exit(1);
@@ -95,7 +97,7 @@ function readFile(filename, options) {
             else {
                 resolve(data);
             }
-        })
+        });
     });
 }
 
@@ -108,17 +110,17 @@ function writeFile(filename, data, options) {
             else {
                 resolve(undefined);
             }
-        })
+        });
     });
 }
 
 function shape(text, width) {
     let res = "";
-    let len = text.length;
+    const len = text.length;
     let i   = 0;
     while (i * width < len) {
         res += text.substr(i * width, width) + "\n";
-        i++;
+        i += 1;
     }
     return res;
 }
