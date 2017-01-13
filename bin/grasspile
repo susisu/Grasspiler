@@ -10,7 +10,6 @@
 const fs = require("fs");
 
 const co = require("co");
-const lq = require("loquat");
 
 const program = require("commander");
 
@@ -78,7 +77,7 @@ co(function* () {
         yield writeFile(OUTFILE, grasses, { encoding: "utf8" });
     }
 }).catch(error => {
-    if (error instanceof lq.ParseError || error instanceof gp.errors.CompileError) {
+    if (error instanceof gp.errors.ParseError || error instanceof gp.errors.CompileError) {
         process.stderr.write(error.toString() + "\n");
     }
     else {
